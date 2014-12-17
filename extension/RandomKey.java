@@ -7,51 +7,66 @@
 
 import java.io.*;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class RandomKey {
+
+	class Key {
+		public Key(char k) {
+			ch = k;
+			prob = 0;
+		}
+		public char ch;
+		public int prob;
+	}
     
     /* We are using the ISO-8859-1 encoding, representing 'ö' by 246, 'ä' by 228, and 'å' by 229. */ 
-    static final char key[] =    { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 246, 228, 229 };
-
-    static final int NUMBER_OF_CHARS = key.length + 1;
-    // The START_END character is used to represent end of word/end of sentence.
-    static final int START_END = NUMBER_OF_CHARS - 1;
-
-    public static char[][] neighbour = {
-	{'q','w','s','z'}, // a
-	{'v','g','h','n'}, // b
-	{'x','d','f','v'}, // c
-	{'x','s','e','r','f','c'}, // d
-	{'w','s','d','r'}, // e
-	{'d','r','t','g','v','c'}, // f
-	{'f','t','y','h','b','v'}, // g
-	{'g','y','u','j','n','b'}, // h
-	{'u','j','k','o'}, // i
-	{'h','u','i','k','m','n'}, // j
-	{'m','j','i','o','l'}, // k
-	{'k','o','p',229}, // l
-	{'n','j','k'}, // m
-	{'b','h','j','m'}, // n
-	{'i','k','l','p'}, // o
-	{'o','l',229,246,}, // p
-	{'w','a'}, // q
-	{'e','d','f','t'}, // r
-	{'a','w','e','d','x','z'}, // s
-	{'r','f','g','y'}, // t
-	{'y','h','j','i'}, // u
-	{'c','f','g','b'}, // v
-	{'q','a','s','e'}, // w
-	{'z','s','d','c'}, // x
-	{'t','g','h','u'}, // y
-	{'x','s','a'}, // z
-	{'p','l',229,228}, // ö
-	{246,229}, // ä
-	{'p',228,246}, // å
-	{}};    // whitespace, represented by the START_END symbol
+	static ArrayList<Key> keys = new ArrayList<Key>();
+	keys.add(new Key('a'));
+	keys.add(new Key('b'));
+	keys.add(new Key('c'));
+	keys.add(new Key('d'));
+	keys.add(new Key('e'));
+	keys.add(new Key('f'));
+	keys.add(new Key('g'));
+	keys.add(new Key('h'));
+	keys.add(new Key('i'));
+	keys.add(new Key('j'));
+	keys.add(new Key('k'));
+	keys.add(new Key('l'));
+	keys.add(new Key('m'));
+	keys.add(new Key('n'));
+	keys.add(new Key('o'));
+	keys.add(new Key('p'));
+	keys.add(new Key('q'));
+	keys.add(new Key('r'));
+	keys.add(new Key('s'));
+	keys.add(new Key('t'));
+	keys.add(new Key('u'));
+	keys.add(new Key('v'));
+	keys.add(new Key('w'));
+	keys.add(new Key('x'));
+	keys.add(new Key('y'));
+	keys.add(new Key('z'));
+	keys.add(new Key(246));
+	keys.add(new Key(228));
+	keys.add(new Key(229));
 	
-    Random random = new Random();
+	Random random = new Random();
 
-    void readEvalPrint() {
+	void initKey(string filename) {
+		try {
+			FileReader in = new FileReader( filename );
+			Scanner scan =  new Scanner(in );
+			while ( scan.hasNext() ) {
+				string 
+			}
+		} catch {
+
+		}
+	}
+
+	void readEvalPrint() {
 	while ( true ) {
 	    try {
 		BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
