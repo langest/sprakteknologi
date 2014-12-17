@@ -39,6 +39,7 @@ public class Decoder {
 	catch ( Exception e ) {
 	    e.printStackTrace();
 	}
+	try { in.close(); } catch (Exception e) { e.printStackTrace();}
     }
 
     /** 
