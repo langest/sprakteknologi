@@ -24,6 +24,8 @@ public class Decoder {
     /** Pointers to retrieve the topmost hypothesis. */
     int[][] backptr;
 
+		RandomKey randKey;
+
     /** Reads the bigram stats from a file. */
     void init_a( String filename ) {
 	try {
@@ -35,12 +37,12 @@ public class Decoder {
 		double d = scan.nextDouble();
 		a[i][j] = d;
 	    }
+		in.close();
 	}
 	catch ( Exception e ) {
 	    e.printStackTrace();
 	}
-	try { in.close(); } catch (Exception e) { e.printStackTrace();}
-    }
+		}
 
     /** 
      *  Initializes the observation matrix.
@@ -53,17 +55,11 @@ public class Decoder {
      */
     void init_b() {
 	for ( int i=0; i<RandomKey.NUMBER_OF_CHARS; i++ ) {
-	    char[] cs = RandomKey.neighbour[i];
-	    // Initialize all log-probabilities to some small value.
+	    Double[] cs = randKey.neighbours.get(i);
+			//Read what value every key should have
 	    for ( int j=0; j<RandomKey.NUMBER_OF_CHARS; j++ ) {
-		b[i][j] = Double.NEGATIVE_INFINITY;
+		b[i][j] = Math.log( cs[j] );
 	    }
-	    // All neighbouring keys are assigned the probability 0.1
-	    for ( int j=0; j<cs.length; j++ ) {
-		b[i][RandomKey.charToIndex(cs[j])] = Math.log( 0.1 );
-	    }
-	    // The remainder of the probability mass is given to the correct key.
-	    b[i][i] = Math.log( (10-cs.length)/10.0 );
 	}
     }
 
@@ -124,10 +120,10 @@ public class Decoder {
 	char[] c = new char[index.length];
 	int current = last_backptr;
 	for ( int t=index.length-1; t>=0; t-- ) {
-	    if ( current >= RandomKey.key.length ) 
+	    if ( current >= RandomKey.NUMBER_OF_CHARS - 1 ) 
 		c[t] = ' ';
 	    else
-		c[t] = RandomKey.key[current];
+		c[t] = (char)('a' + current);
 	    current = backptr[t][current];
 	}
 	print_trellis( c );
@@ -179,7 +175,8 @@ public class Decoder {
     // ------------------------------------------------------
 
     
-    public Decoder( String filename ) {
+    public Decoder( String filename, RandomKey r) {
+			randKey = r;
 	init_a( filename );
 	init_b();
     }

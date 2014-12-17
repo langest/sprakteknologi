@@ -6,16 +6,18 @@
  */
 
 import java.io.*;
-import java.util.Random;
-import java.util.HashMap;
+import java.util.*;
 
 public class RandomKey {
+		// The START_END character is used to represent end of word/end of sentence.
+		static final int START_END = 30;
+		static final int NUMBER_OF_CHARS = 30;
 
-	HashMap<char, double[]> neighbours = new HashMap<char, int[]>();
+	public HashMap<Character, Double[]> neighbours = new HashMap<Character, Double[]>();
 	
 	Random random = new Random();
 
-	void initNeighbours(string correctFile, string encryptedFile) {
+	void initNeighbours(String correctFile, String encryptedFile) {
 		try {
 			//Start by counting the observations
 
@@ -30,34 +32,34 @@ public class RandomKey {
 				char[] c = corWord.toCharArray();
 				char[] e = encWord.toCharArray();
 				for (int i = 0; i < corWord.length(); i++) {
-					switch (e) {
+					switch (e[i]) {
     /* We are using the ISO-8859-1 encoding, representing 'ö' by 246, 'ä' by 228, and 'å' by 229. */ 
 					case 246: //ö
-						neighbours.get(c)[28]+=1;
+						neighbours.get(c[i])[28]+=1;
 						break;
 					case 228: //ä
-						neighbours.get(c)[27]+=1;
+						neighbours.get(c[i])[27]+=1;
 						break;
 					case 229: //å
-						neighbours.get(c)[26]+=1;
+						neighbours.get(c[i])[26]+=1;
 						break;
 					default:
-						neighbours.get(c)[e-'a']+=1;
+						neighbours.get(c[i])[e[i]-'a']+=1;
 						break;
 					}
 				}
 			}
-			
+
+		corrIn.close();
+		encrIn.close();
+
 		} catch ( Exception e ) {
 			e.printStackTrace();
 		}
-		
-	try { corrIn.close();
-				encrIn.close(); } catch (Exception e) { e.printStackTrace();}
 
 	// Turn the values into probabilities
-		for (Map.Entry<char, double[]> entry : neighbours.entrySet()) {
-			int[] cur = entry.getValue();
+		for (Map.Entry<Character, Double[]> entry : neighbours.entrySet()) {
+			Double[] cur = entry.getValue();
 			int total = 0;
 			for (int i = 0; i < 28; i++) {
 				total += cur[i];
@@ -100,8 +102,8 @@ public class RandomKey {
 
 
     static char indexToChar( int i ) {
-	if ( i < key.length )
-	    return key[i];
+	if ( i < 27)
+	    return (char) (i + 'a');
 	else 
 	    return '.';
     }
@@ -111,9 +113,10 @@ public class RandomKey {
 	if ( index == START_END ) 
 	    return c;
 	else {
-	    int r = random.nextInt( 10 );
-	    if ( r<neighbour[index].length )
-		return neighbour[index][r];
+		//TODO fix so it scrambles correctly
+	    int r = random.nextInt( 100 );
+	    if ( 1<2 ) //r<neighbour[index].length )
+		return 'a';//neighbour[index][r];
 	    else
 		return c;
 	}
