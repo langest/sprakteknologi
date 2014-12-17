@@ -7,5 +7,9 @@ public class Main {
 			i = ch-'a';
 			System.out.println(i);
 		}
+		for (int j = 0; j < 30; j++) {
+			char cha = 0;
+			System.out.println('a'+cha+j);
+		}
 	}
 }
