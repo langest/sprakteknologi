@@ -7,62 +7,64 @@
 
 import java.io.*;
 import java.util.Random;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RandomKey {
 
-	class Key {
-		public Key(char k) {
-			ch = k;
-			prob = 0;
-		}
-		public char ch;
-		public int prob;
-	}
-    
-    /* We are using the ISO-8859-1 encoding, representing 'ö' by 246, 'ä' by 228, and 'å' by 229. */ 
-	static ArrayList<Key> keys = new ArrayList<Key>();
-	keys.add(new Key('a'));
-	keys.add(new Key('b'));
-	keys.add(new Key('c'));
-	keys.add(new Key('d'));
-	keys.add(new Key('e'));
-	keys.add(new Key('f'));
-	keys.add(new Key('g'));
-	keys.add(new Key('h'));
-	keys.add(new Key('i'));
-	keys.add(new Key('j'));
-	keys.add(new Key('k'));
-	keys.add(new Key('l'));
-	keys.add(new Key('m'));
-	keys.add(new Key('n'));
-	keys.add(new Key('o'));
-	keys.add(new Key('p'));
-	keys.add(new Key('q'));
-	keys.add(new Key('r'));
-	keys.add(new Key('s'));
-	keys.add(new Key('t'));
-	keys.add(new Key('u'));
-	keys.add(new Key('v'));
-	keys.add(new Key('w'));
-	keys.add(new Key('x'));
-	keys.add(new Key('y'));
-	keys.add(new Key('z'));
-	keys.add(new Key(246));
-	keys.add(new Key(228));
-	keys.add(new Key(229));
+	HashMap<char, double[]> neighbours = new HashMap<char, int[]>();
 	
 	Random random = new Random();
 
-	void initKey(string filename) {
+	void initNeighbours(string correctFile, string encryptedFile) {
 		try {
-			FileReader in = new FileReader( filename );
-			Scanner scan =  new Scanner(in );
-			while ( scan.hasNext() ) {
-				string 
-			}
-		} catch {
+			//Start by counting the observations
 
+			FileReader corrIn = new FileReader( correctFile );
+			Scanner cor =  new Scanner( corrIn );
+			FileReader encrIn = new FileReader( encryptedFile );
+			Scanner enc =  new Scanner( encrIn );
+			String corWord, encWord;
+			while ( cor.hasNext() && enc.hasNext() ) {
+				corWord = cor.next();
+				encWord = enc.next();
+				char[] c = corWord.toCharArray();
+				char[] e = encWord.toCharArray();
+				for (int i = 0; i < corWord.length(); i++) {
+					switch (e) {
+    /* We are using the ISO-8859-1 encoding, representing 'ö' by 246, 'ä' by 228, and 'å' by 229. */ 
+					case 246: //ö
+						neighbours.get(c)[28]+=1;
+						break;
+					case 228: //ä
+						neighbours.get(c)[27]+=1;
+						break;
+					case 229: //å
+						neighbours.get(c)[26]+=1;
+						break;
+					default:
+						neighbours.get(c)[e-'a']+=1;
+						break;
+					}
+				}
+			}
+			
+		} catch ( Exception e ) {
+			e.printStackTrace();
+		}
+		
+	try { corrIn.close();
+				encrIn.close(); } catch (Exception e) { e.printStackTrace();}
+
+	// Turn the values into probabilities
+		for (Map.Entry<char, double[]> entry : neighbours.entrySet()) {
+			int[] cur = entry.getValue();
+			int total = 0;
+			for (int i = 0; i < 28; i++) {
+				total += cur[i];
+			}
+      for (int i = 0; i < 28; i++) {
+				cur[i] = cur[i] / total;
+			}
 		}
 	}
 
