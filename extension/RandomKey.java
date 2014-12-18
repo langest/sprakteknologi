@@ -66,12 +66,17 @@ public class RandomKey {
 	// Turn the values into probabilities
 		for (Map.Entry<Integer, Double[]> entry : neighbours.entrySet()) {
 			Double[] cur = entry.getValue();
-			int total = 0;
+			double total = 0;
 			for (int i = 0; i < 28; i++) {
 				total += cur[i];
 			}
       for (int i = 0; i < 28; i++) {
-				cur[i] = cur[i] / total;
+				if (total != 0) {
+					cur[i] = cur[i] / total;
+				}
+				else {
+					cur[i] = 0.0;
+				}
 			}
 		}
 	}
