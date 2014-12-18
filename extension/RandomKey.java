@@ -41,13 +41,13 @@ public class RandomKey {
 					switch (e[i]) {
     /* We are using the ISO-8859-1 encoding, representing 'ö' by 246, 'ä' by 228, and 'å' by 229. */ 
 					case 246: //ö
-						neighbours.get(c[i])[28]+=1;
+						neighbours.get(29)[28]+=1;
 						break;
 					case 228: //ä
-						neighbours.get(c[i])[27]+=1;
+						neighbours.get(28)[27]+=1;
 						break;
 					case 229: //å
-						neighbours.get(c[i])[26]+=1;
+						neighbours.get(27)[26]+=1;
 						break;
 					default:
 						neighbours.get(c[i]-'a')[e[i]-'a']+=1;
