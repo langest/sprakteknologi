@@ -10,10 +10,12 @@ import java.util.*;
 
 public class RandomKey {
 		// The START_END character is used to represent end of word/end of sentence.
-		static final int START_END = 30;
+		static final int START_END = 29;
 		static final int NUMBER_OF_CHARS = 30;
 
 	public HashMap<Integer, Double[]> neighbours = new HashMap<Integer, Double[]>();
+	public int[] numberOfShown = new int[NUMBER_OF_CHARS];
+	public int[] numberOfPressed = new int[NUMBER_OF_CHARS];
 	
 	Random random = new Random();
 
@@ -38,19 +40,85 @@ public class RandomKey {
 				char[] c = corWord.toCharArray();
 				char[] e = encWord.toCharArray();
 				for (int i = 0; i < corWord.length(); i++) {
+					int cc = ((int)c[i]-'a');
+					int ee = (int)(e[i] - 'a');
 					switch (e[i]) {
     /* We are using the ISO-8859-1 encoding, representing 'ö' by 246, 'ä' by 228, and 'å' by 229. */ 
 					case 246: //ö
-						neighbours.get(29)[28]+=1;
+						numberOfShown[29]++;
+						if (cc <= 26) {
+							neighbours.get(c[i]-'a')[29] += 1;
+							numberOfPressed[cc]++;
+						}
+						else if (cc+'a' == 'å') {
+							neighbours.get(27)[29] += 1;
+							numberOfPressed[27]++;
+						}
+						else if (cc+'a' == 'ä') {
+							neighbours.get(28)[29] += 1;
+							numberOfPressed[28]++;
+						}
+						else if (cc+'a' == 'ö') {
+							neighbours.get(29)[29] += 1;
+							numberOfPressed[29]++;
+						}
 						break;
 					case 228: //ä
-						neighbours.get(28)[27]+=1;
+						numberOfShown[28]++;
+						if (cc <= 26) {
+							neighbours.get(c[i]-'a')[28] += 1;
+							numberOfPressed[cc]++;
+						}
+						else if (cc+'a' == 'å') {
+							neighbours.get(27)[28] += 1;
+							numberOfPressed[27]++;
+						}
+						else if (cc+'a' == 'ä') {
+							neighbours.get(28)[28] += 1;
+							numberOfPressed[28]++;
+						}
+						else if (cc+'a' == 'ö') {
+							neighbours.get(29)[28] += 1;
+							numberOfPressed[29]++;
+						}
 						break;
 					case 229: //å
-						neighbours.get(27)[26]+=1;
+						numberOfShown[27]++;
+						if (cc <= 26) {
+							neighbours.get(c[i]-'a')[27] += 1;
+							numberOfPressed[cc]++;
+						}
+						else if (cc+'a' == 'å') {
+							neighbours.get(27)[27] += 1;
+							numberOfPressed[27]++;
+						}
+						else if (cc+'a' == 'ä') {
+							neighbours.get(28)[27] += 1;
+							numberOfPressed[28]++;
+						}
+						else if (cc+'a' == 'ö') {
+							neighbours.get(29)[27] += 1;
+							numberOfPressed[29]++;
+						}
 						break;
 					default:
-						neighbours.get(c[i]-'a')[e[i]-'a']+=1;
+						numberOfShown[ee]++;
+						if (cc <= 26) {
+							neighbours.get(c[i]-'a')[e[i]-'a'] += 1;
+							numberOfPressed[cc]++;
+						}
+						else if (cc+'a' == 'å') {
+							neighbours.get(27)[e[i]-'a'] += 1;
+							numberOfPressed[27]++;
+						}
+						else if (cc+'a' == 'ä') {
+							neighbours.get(28)[e[i]-'a'] += 1;
+							numberOfPressed[28]++;
+						}
+						else if (cc+'a' == 'ö') {
+							neighbours.get(29)[e[i]-'a'] += 1;
+							numberOfPressed[29]++;
+						}
 						break;
 					}
 				}
@@ -127,11 +195,32 @@ public class RandomKey {
 	if ( index == START_END ) 
 	    return c;
 	else {
-		//TODO fix so it scrambles correctly
-	    int r = random.nextInt( 100 );
-	    if ( 1<2 ) //r<neighbour[index].length )
-		return 'a';//neighbour[index][r];
-	    else
+	  double r = random.nextDouble(); //r = 0.0-1.0 inclusive
+		Double[] prob;
+
+		switch (c) {
+		case 246: //ö
+			prob = neighbours.get(29);
+			break;
+		case 228: //ä
+			prob = neighbours.get(28);
+			break;
+		case 229: //å
+			prob = neighbours.get(27);
+			break;
+		default:
+			prob = neighbours.get(c-'a');
+			break;
+		}
+		for (int i = 0; i < RandomKey.NUMBER_OF_CHARS; i++) {
+			r -= prob[i];
+			if (r <= 0.00004) {
+				if (i <= 26) return (char)(i + 'a');
+				if (i == 27) return 'å';
+				if (i == 28) return 'ä';
+				return 'ö';
+			}
+		}
 		return c;
 	}
     }

@@ -55,10 +55,10 @@ public class Decoder {
      */
     void init_b() {
 	for ( int i=0; i<RandomKey.NUMBER_OF_CHARS; i++ ) {
-	    Double[] cs = randKey.neighbours.get(i);
 			//Read what value every key should have
 	    for ( int j=0; j<RandomKey.NUMBER_OF_CHARS; j++ ) {
-		b[i][j] = Math.log( cs[j] );
+	    Double[] cs = randKey.neighbours.get(j);
+		b[i][j] = Math.log( cs[i]*randKey.numberOfShown[j]/randKey.numberOfPressed[i] );
 	    }
 	}
     }

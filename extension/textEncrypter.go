@@ -50,6 +50,16 @@ func initNeighbours() {
 	neighbours["p"] = []string{"o", "l", "ö", "ä", "å"}
 	neighbours["q"] = []string{"a", "s", "w"}
 	neighbours["r"] = []string{"e", "d", "f", "g", "t"}
+	neighbours["s"] = []string{"t"}
+	neighbours["t"] = []string{"r"}
+	neighbours["u"] = []string{"p"}
+	neighbours["v"] = []string{"g"}
+	neighbours["w"] = []string{"v"}
+	neighbours["x"] = []string{"y"}
+	neighbours["y"] = []string{"z"}
+	neighbours["å"] = []string{"ö", "ä"}
+	neighbours["ä"] = []string{"ö", "å"}
+	neighbours["ö"] = []string{"ä", "å"}
 }
 
 func readLines(path string) ([]string, error) {
