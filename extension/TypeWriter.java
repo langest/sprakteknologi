@@ -14,7 +14,7 @@ import javax.swing.border.*;
 public class TypeWriter extends JFrame implements KeyListener {
 
     /** The actual typewriter. */
-    private RandomKey rand = new RandomKey();
+    private RandomKey rand;
     
     /** The file containing the bigram statistics. */
     public static final String STATSFILE = "bigramstats.txt";
@@ -32,6 +32,9 @@ public class TypeWriter extends JFrame implements KeyListener {
 
     /* Set up the GUI */
     public TypeWriter() {
+			rand = new RandomKey();
+			rand.initNeighbours("correctFile.txt", "encryptedFile.txt");
+
 	setSize( 600, 350 );
 	inputWindow.setFont( coorFont );
 	inputWindow.addKeyListener( this );
@@ -53,7 +56,7 @@ public class TypeWriter extends JFrame implements KeyListener {
 	setTitle( "Random Typewriter" );
 
 	/** Create the decoder. */
-	final Decoder d = new Decoder( STATSFILE );
+	final Decoder d = new Decoder( STATSFILE, rand );
 
 	/** Handle a click on the "Clear All" button. */
 	Action clear = new AbstractAction() {

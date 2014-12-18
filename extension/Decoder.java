@@ -185,6 +185,7 @@ public class Decoder {
     // ------------------------------------------------------
 	
 
+		/*
     public static void main( String[] args ) {
 	Decoder d = new Decoder( args[0] );
 	while ( true ) {
@@ -211,5 +212,6 @@ public class Decoder {
 	    }
 	}
     }
+		*/
 }
 	

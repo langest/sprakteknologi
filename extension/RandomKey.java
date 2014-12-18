@@ -13,11 +13,17 @@ public class RandomKey {
 		static final int START_END = 30;
 		static final int NUMBER_OF_CHARS = 30;
 
-	public HashMap<Character, Double[]> neighbours = new HashMap<Character, Double[]>();
+	public HashMap<Integer, Double[]> neighbours = new HashMap<Integer, Double[]>();
 	
 	Random random = new Random();
 
 	void initNeighbours(String correctFile, String encryptedFile) {
+		for (int i = 0; i < NUMBER_OF_CHARS; i++) {
+			neighbours.put(i, new Double[NUMBER_OF_CHARS]);
+			for (int j = 0; j < NUMBER_OF_CHARS; j++) {
+				neighbours.get(i)[j] = new Double(0);
+			}
+		}
 		try {
 			//Start by counting the observations
 
@@ -44,7 +50,7 @@ public class RandomKey {
 						neighbours.get(c[i])[26]+=1;
 						break;
 					default:
-						neighbours.get(c[i])[e[i]-'a']+=1;
+						neighbours.get(c[i]-'a')[e[i]-'a']+=1;
 						break;
 					}
 				}
@@ -58,7 +64,7 @@ public class RandomKey {
 		}
 
 	// Turn the values into probabilities
-		for (Map.Entry<Character, Double[]> entry : neighbours.entrySet()) {
+		for (Map.Entry<Integer, Double[]> entry : neighbours.entrySet()) {
 			Double[] cur = entry.getValue();
 			int total = 0;
 			for (int i = 0; i < 28; i++) {
@@ -104,6 +110,9 @@ public class RandomKey {
     static char indexToChar( int i ) {
 	if ( i < 27)
 	    return (char) (i + 'a');
+	if ( i < 30) {
+			return '5'; //TODO add åäö
+	}
 	else 
 	    return '.';
     }
