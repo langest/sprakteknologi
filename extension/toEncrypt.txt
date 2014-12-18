@@ -1,0 +1,2 @@
+här är en text som jag ska prova att kryptera
+ju längre den är desto bättre resultat borde jag få
