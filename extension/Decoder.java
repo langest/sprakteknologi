@@ -122,8 +122,12 @@ public class Decoder {
 	for ( int t=index.length-1; t>=0; t-- ) {
 	    if ( current >= RandomKey.NUMBER_OF_CHARS - 1 ) 
 		c[t] = ' ';
-	    else
-		c[t] = (char)('a' + current);
+	    else {
+				if (i <= 26) c[t] = (char)(i + 'a');
+				else if (i == 27) c[t] = 'å';
+				else if (i == 28) c[t] = 'ä';
+				else c[t] = 'ö';
+			}
 	    current = backptr[t][current];
 	}
 	print_trellis( c );
